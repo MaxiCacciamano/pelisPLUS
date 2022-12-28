@@ -1,6 +1,7 @@
-const {app} = require('./app')
+const {app} = require('./src/app')
 const PORT = process.env.PORT || 3001;  
 const mongoose = require("mongoose");
+
 
 app.listen(PORT, async () => {
     try{
