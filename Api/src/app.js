@@ -1,13 +1,16 @@
 const express = require("express");
 let cors = require("cors");
 const morgan = require("morgan");
-const {route} = require('./src/Routes/index');
+const route = require('./Routes/index');
+const mongoose = require("mongoose");
 
 require("dotenv").config();
 const app = express();
 
+mongoose.set('strictQuery', true)
 // Middleware
 app.use(cors());
+app.use(express.json())
 // app.use((req, res, next) => {
 //   res.header('Access-Control-Allow-Origin', process.env.CORS_URL||"http://localhost:3000"); // update to match the domain you will make the request from
 //   res.header('Access-Control-Allow-Credentials', 'true');
@@ -31,7 +34,7 @@ app.use(cors());
 // app.use("/FormBuy",require("./routes/formbuyRoute"))
 // app.use("/Orden",require("./routes/ordenRoute"))
 
-route.use("/api",route)
+app.use("/api",route)
 
 // Route Deploy
 // app.get("/api", function (req, res) {

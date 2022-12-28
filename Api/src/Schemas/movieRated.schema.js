@@ -1,5 +1,5 @@
-const mongose = require('mongose');
-const Schema = mongose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 const movieRated = new Schema({
     title: String,
@@ -12,4 +12,4 @@ const movieRated = new Schema({
      
 })
 
-module.exports = mongose.model('movieRated', movieRated);
+module.exports = mongoose.model('movieRated', movieRated);
