@@ -1,5 +1,6 @@
 const axios  = require('axios')
 const {API_KEY} = process.env
+const comentario = require('../Schemas/comentraio.schema')
 const movieRated = require('../Schemas/movieRated.schema')
 
 const moviesPerPage = async()=>{
@@ -89,6 +90,44 @@ const moviesAll = async(req,res)=>{
     }
 }
 
+const recomendadas = async(req,res)=>{
+    try{
+        const movrec = await axios.get(`https://api.themoviedb.org/3/movie/top_rated?api_key=b3f06dd8e7f5951a2cb88404bd306cb4&language=en-US&page=1`)
+        const infmov = movrec.data.results.map(r=>{
+            return{
+                id:r.id,
+                original_language: r.original_language,
+                original_title: r.original_title,
+                popularity: r.popularity,
+                poster_path: r.poster_path,
+                release_date: r.release_date,
+                vote_average: r.vote_average
+            }
+        })
+        return res.send(infmov)
+    }
+    catch(err){
+        console.log("error en al traer peliculas populares", err)
+    }
+}
+
+const detailmrecomended = async(req,res)=>{
+    try{
+        const {id} = req.params
+        const more = await  axios.get(`https://api.themoviedb.org/3/movie/top_rated?api_key=b3f06dd8e7f5951a2cb88404bd306cb4&language=en-US&page=1`)
+        // console.log(more.data.results)
+        if(id){
+            let recomendedid = await more.data.results.filter(i=>i.id == id)
+            recomendedid.length?
+            res.send(recomendedid) : res.send("error en la busqueda del id de la pelicula recomendada")
+
+        }
+    }
+    catch(err){
+        console.log("error en los detalles de la pélicula recomendada", err)
+    }
+}
+
 const movieId = async(req,res)=>{
     try{
     const {id} = req.params;
@@ -104,8 +143,23 @@ const movieId = async(req,res)=>{
     }
 }
     
+const comentar = async(req,res)=>{
+    try{
+        const {comen, nombre} = req.body;
+        // const createComentario = await 
+        let comentCreated = new comentario()
+    }
+    catch(err){
+        console.log("error al subir comentario", err)
+    }
+
+    //ver tutorial como crear un post con mongodb y cargar las categorias
+}
+
 module.exports = {
     getmovieRated,
     moviesAll,
-    movieId
+    movieId,
+    recomendadas,
+    detailmrecomended,
 }
