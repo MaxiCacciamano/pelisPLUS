@@ -145,9 +145,14 @@ const movieId = async(req,res)=>{
     
 const comentar = async(req,res)=>{
     try{
-        const {comen, nombre} = req.body;
-        // const createComentario = await 
-        let comentCreated = new comentario()
+        console.log(req.body)
+        let newcoment = new comentario()
+        newcoment.nombre = req.body.nombre
+        newcoment.comentario = req.body.comentario
+
+        newcoment.save((err, coment)=>{
+            err? res.status(500).send(`error al guardar comentario,${err}`):res.status(200).send({newcoment:coment})
+        })
     }
     catch(err){
         console.log("error al subir comentario", err)
@@ -162,4 +167,5 @@ module.exports = {
     movieId,
     recomendadas,
     detailmrecomended,
+    comentar
 }
