@@ -1,7 +1,7 @@
 const axios  = require('axios')
 const user = require('../Schemas/user.schema')
 const {v4: uuidv4} = require('uuid')
-const { getToken } = require('../../jwt.config')
+const { getToken, getTokenData } = require('../../jwt.config')
 
 const singUp = async(req,res)=>{
     try{
@@ -30,8 +30,7 @@ const singUp = async(req,res)=>{
         user =  new user({name, email, code})
 
         //generar un token
-        const token=getToken({name, email,code})
-
+        const token=getToken({email,code})
 
         //obtener un templaate
         
