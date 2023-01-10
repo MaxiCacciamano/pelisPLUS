@@ -1,7 +1,8 @@
 const axios  = require('axios')
-const user = require('../Schemas/user.schema')
+const User = require('../Schemas/user.schema')
 const {v4: uuidv4} = require('uuid')
 const { getToken, getTokenData } = require('../../jwt.config')
+const { getTamplet, sendEmail } = require('../../mail.config')
 
 const singUp = async(req,res)=>{
     try{
@@ -10,11 +11,11 @@ const singUp = async(req,res)=>{
 
         //obtener la data del usuario
 
-        const {name, email} = req.body
+        const {nombre, email} = req.body
 
 
         //verificar que el usuario no exista la
-        let user = user.findOne({email: email}) || null
+        let user = await User.findOne({email}) || null
 
         if(user !== null){
             return res.json({
@@ -27,15 +28,21 @@ const singUp = async(req,res)=>{
         const code = uuidv4();
 
         //crear un nuevo usuario
-        user =  new user({name, email, code})
+        user =  new User({nombre, email, code})
 
         //generar un token
         const token=getToken({email,code})
 
         //obtener un templaate
-        
+        const template = getTamplet(nombre, token);
 
         //enviar email
+        await sendEmail(email, 'email de prueba', template);
+        await user.save();
+        res.json({
+            success: true,
+            msg:'Registrado correctamente'
+        })
     }
     catch(err){
         console.log(err,"soy el error de registro de ususario")
@@ -51,5 +58,5 @@ const signin =async(req,res)=>{
 }
 
 module.exports={
-    
+    singUp
 }
