@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken')
 const  getToken= (payload)=>{
     return jwt.sign({
         data:payload
-
     },/*palabra secreta*/ 'SECRET',{expiresIn:'1h'/*en cuanto teimpo va a exiprar ek token*/})
 }
 

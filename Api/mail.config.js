@@ -1,5 +1,6 @@
+const nodemailer = require("nodemailer");
 
-let transporter = nodemailer.createTransport({
+const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 465,
     tls:{
@@ -7,25 +8,24 @@ let transporter = nodemailer.createTransport({
     },
     secure: true, // true for 465, false for other ports
     auth: {
-      user: procces.env.CORREO, // generated ethereal user
-      pass: testAccount.CC, // generated ethereal password
+      user:"pruebasmaxidev@gmail.com", // generated ethereal user
+      pass: "Viam1199", // generated ethereal password
     },
   });
 
   const sendEmail = async(email, subject, html)=>{
     try{
      // send mail with defined transport object
-        let info = await transporter.sendMail({
+         await transporter.sendMail({
           from: `Pagina <${process.env.CORREO}>`, // sender address
           to: email, // list of receivers
           subject , // Subject line
           text: "PelisPlus", // plain text body
           html, // html body
        });
-
     }
     catch(err){
-        console.log("algo no va bien con el email")
+        console.log("algo no va bien con el email",err)
     }
   }
 
