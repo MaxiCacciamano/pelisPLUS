@@ -1,3 +1,4 @@
+require('dotenv').config();
 const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
@@ -8,8 +9,8 @@ const transporter = nodemailer.createTransport({
     },
     secure: true, // true for 465, false for other ports
     auth: {
-      user:"pruebasmaxidev@gmail.com", // generated ethereal user
-      pass: "Viam1199", // generated ethereal password
+      user:process.env.USER, // generated ethereal user
+      pass:process.env.PASS, // generated ethereal password
     },
   });
 
@@ -17,7 +18,7 @@ const transporter = nodemailer.createTransport({
     try{
      // send mail with defined transport object
          await transporter.sendMail({
-          from: `Pagina <${process.env.CORREO}>`, // sender address
+          from: `Pagina <${process.env.USER}>`, // sender address
           to: email, // list of receivers
           subject , // Subject line
           text: "PelisPlus", // plain text body
