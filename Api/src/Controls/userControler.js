@@ -37,11 +37,11 @@ const singUp = async(req,res)=>{
         const template = getTamplet(nombre, token);
 
         //enviar email
-        await sendEmail(email, 'email de prueba', template);
-        await user.save();
+        await sendEmail(email, /*titulo del correo*/'Email de PlisPlus', template);
+        await user.save(); //guardamos el usuario
         res.json({
             success: true,
-            msg:'Registrado correctamente'
+            msg:'Registrado con exito'
         })
     }
     catch(err){
